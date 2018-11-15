@@ -1,3 +1,9 @@
+import com.sun.org.apache.xml.internal.security.Init;
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
+import java.io.*;
+
 /**
  * Created by giraffissimo on 10/26/2018.
  *
@@ -30,12 +36,62 @@ class Solution {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, Base64DecodingException {
 
         //System.out.println();
-        int[] nums = new int[]{3,2,95,4,-3};
+        /*int[] nums = new int[]{3,2,95,4,-3};
         int target = 92;
         int[] result = twoSum(nums, target);
-        System.out.println("[" + result[0] + ", " + result[1] + "]");
+        System.out.println("[" + result[0] + ", " + result[1] + "]");*/
+
+        File file = new File("D:\\Projects\\NextGen\\download.txt");
+        try (FileInputStream fis = new FileInputStream(file)) {
+
+            System.out.println("Total file size to read (in bytes) : "+ fis.available());
+            StringBuffer str = new StringBuffer();
+            int content;
+            while ((content = fis.read()) != -1) {
+                // convert to char and display it
+                //System.out.print((char) content);
+                str.append((char)content);
+            }
+
+            FileOutputStream fos = new FileOutputStream("D:\\Projects\\NextGen\\download.pdf");
+            fos.write(Base64.decode(str.toString()));
+            fos.close();
+
+            /*String encoded = null;
+            try {
+                byte[] bytes = pdfReader.getPageContent(1);
+                encoded = Base64.encode(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Init.init();
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream("D:\\Projects\\NextGen\\download.pdf");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            //Base64.decode(pdf, fos);
+            try {
+                fos.write(Base64.decode(encoded));//pageContentByte.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Base64DecodingException e) {
+                e.printStackTrace();
+            }
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
